@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul5-P5</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .highlight {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Barang</h1>
+    <form id="formTambah">
+        <label for="namaBarang">Nama Barang:</label>
+        <input type="text" id="namaBarang" required>
+        <br>
+        <label for="berat">Berat (kg):</label>
+        <input type="number" id="berat" required>
+        <br>
+        <button type="button" onclick="tambahData()">Tambah Data</button>
+    </form>
+
+    <h2>Daftar Barang:</h2>
+    <table id="barangTable">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Barang</th>
+                <th>Berat (kg)</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="barangBody"></tbody>
+    </table>
+
+    <script>
+        function tambahData() {
+            var namaBarangInput = document.getElementById("namaBarang");
+            var beratInput = document.getElementById("berat");
+            var barangBody = document.getElementById("barangBody");
+
+            var namaBarang = namaBarangInput.value;
+            var berat = parseFloat(beratInput.value);
+
+            // var backgroundColorClass = berat > 5 ? "highlight" : "";
+            if (berat > 5) {
+                var backgroundColorClass = "highlight";
+            } 
+
+            var newRow = barangBody.insertRow();
+            var cellNo = newRow.insertCell(0);
+            var cellNamaBarang = newRow.insertCell(1);
+            var cellBerat = newRow.insertCell(2);
+            var cellAksi = newRow.insertCell(3);
+
+            cellNo.textContent = barangBody.rows.length;
+            cellNamaBarang.textContent = namaBarang;
+            cellBerat.textContent = berat + " kg";
+            cellBerat.classList.add(backgroundColorClass);
+
+            var btnHapus = document.createElement("button");
+            btnHapus.textContent = "Hapus";
+            btnHapus.onclick = function() {
+                hapusBaris(newRow);
+            };
+            cellAksi.appendChild(btnHapus);
+
+            namaBarangInput.value = "";
+            beratInput.value = "";
+        }
+
+        function hapusBaris(row) {
+            var barangBody = document.getElementById("barangBody");
+            barangBody.removeChild(row);
+
+            for (var i = 0; i < barangBody.rows.length; i++) {
+                barangBody.rows[i].cells[0].textContent = i + 1;
+            }
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
